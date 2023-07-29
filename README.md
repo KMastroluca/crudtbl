@@ -10,13 +10,13 @@
 ## 🛠️ Usage
 
 1. Install the component library using npm:
-
+```
 npm install @nfa/crudtbl
-
+```
 2. Import `CRUDTable` from the library:
-
+```
 import CRUDTable from "@nfa/crudtbl";
-
+```
 3. Setup your data and pass it to the `CRUDTable` component:
 
 Setting up your data involves defining an interface for the data type as shown below:
