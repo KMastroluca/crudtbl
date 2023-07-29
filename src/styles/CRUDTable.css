@@ -1,0 +1,16 @@
+
+.crudtbl-row {
+    background-color: #faeeee;
+}
+
+.crudtbl-row:hover {
+    background-color: #c0c0c0;
+}
+
+.crudtbl-dark-row {
+    background-color: #c0c0c0;
+}
+
+.crudtbl-dark-row:hover {
+    background-color: #a7a7a7;
+}

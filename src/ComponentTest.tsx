@@ -22,11 +22,7 @@ const ComponentTest = () => {
 	];
 
 	return (
-		<Card>
-			<CardContent>
-				<CRUDTable<TableTypeOne> data={dataone} index="id" />
-			</CardContent>
-		</Card>
+		<CRUDTable<TableTypeOne> data={dataone} index="id" />
 	);
 };
 
