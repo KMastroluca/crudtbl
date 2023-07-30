@@ -4,7 +4,7 @@
 }
 
 .crudtbl-row:hover {
-    background-color: #c0c0c0;
+    background-color: #a7a7a7;
 }
 
 .crudtbl-dark-row {
@@ -13,4 +13,23 @@
 
 .crudtbl-dark-row:hover {
     background-color: #a7a7a7;
+}
+
+
+.crudtbl-header-row {
+    background-color: #535050;
+}
+
+.crudtbl-header-cell {
+    border-right:1px solid #000000;
+    color:#ffffff !important;
+}
+
+.crudtbl-header-actions-cell {
+    color:#ffffff !important;
+}
+
+.crudtbl-body {
+    box-shadow:inset 0 0 10px #000000;
+    border-left:1px solid #000000;
 }
