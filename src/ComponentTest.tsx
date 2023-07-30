@@ -1,6 +1,8 @@
 
 import { Card, CardContent } from "@mui/material";
 import CRUDTable from "./components/CRUDTable";
+import { MenuItem } from '@mui/base';
+import { AccountTree, ShoppingBag } from '@mui/icons-material';
 
 const ComponentTest = () => {
 
@@ -22,7 +24,25 @@ const ComponentTest = () => {
 	];
 
 	return (
-		<CRUDTable<TableTypeOne> data={dataone} index="id" />
+		<CRUDTable<TableTypeOne> 
+		data={dataone} 
+		index="id"
+		additionalActions={[
+			{
+				menuItemLabel:"Additional Action 1",
+				menuItemIcon:<AccountTree />,
+				menuItemOnClick() {
+					console.log('Additional Action 1 Was Clicked.');
+				},
+			},
+			{
+				menuItemLabel:"Additional Action 2",
+				menuItemIcon:<ShoppingBag />,
+				menuItemOnClick() {
+					console.log('Additional Action 2 Was Clicked');
+				},
+			}
+		]} />
 	);
 };
 

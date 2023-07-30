@@ -5,6 +5,7 @@ Table,
 TableHead,
 TableRow,
 TableBody,
+MenuItem,
 TableCell,
 Paper,
 Typography,
@@ -13,6 +14,7 @@ Button,
 Menu,
 MenuProps,
 Tooltip,
+SvgIconProps,
 } from '@mui/material';
 
 import {
@@ -38,10 +40,16 @@ interface DataItemType {
 	[index: string | number]: string | number;
 }
 
+interface AdditionalActionType {
+	menuItemLabel:string;
+	menuItemIcon?:React.ReactElement<SvgIconProps>;
+	menuItemOnClick?:() => void;
+}
+
 interface CRUDTableProps<T extends DataItemType> {
 	data:T[];
 	index:keyof T & string;
-	additionalActions?:React.ReactNode;
+	additionalActions?:AdditionalActionType[];
 }
 
 
@@ -168,7 +176,13 @@ function CRUDTable<T extends DataItemType>({data, index, additionalActions}:CRUD
 										open={moreActionsMenuOpen}
 										onClose={handleCloseMoreActionsMenu}
 									>
-										{additionalActions}
+										{additionalActions?.map(action => (
+											<MenuItem key={action.menuItemLabel as React.Key}
+												onClick={action.menuItemOnClick}>
+													{action.menuItemIcon}
+													{action.menuItemLabel}
+											</MenuItem>
+										))}
 										{/* -- Menu Items For Additonal Items --  */}
 
 									</MoreActionsMenu>
