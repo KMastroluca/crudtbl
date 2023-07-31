@@ -1,4 +1,4 @@
-# 🚀 @nfa/crudtbl
+# 🚀 @nfabanks/crudtbl
 
 **@nfa/crudtbl** is a highly adaptable, easy to use, and efficient CRUD Table component for React built with TypeScript and Material UI.
 
