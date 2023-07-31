@@ -46,10 +46,18 @@ interface AdditionalActionType {
 	menuItemOnClick?:() => void;
 }
 
+interface CRUDActionsType {
+	crudActionCreate?:() => void;
+	crudActionUpdate?:(updateIndex:any) => void;
+	crudActionDelete?:(deleteIndex:any) => void;
+	crudActionRead?:(readIndex:any) => void;
+}
+
 interface CRUDTableProps<T extends DataItemType> {
 	data:T[];
 	index:keyof T & string;
 	additionalActions?:AdditionalActionType[];
+	crudActions?:CRUDActionsType;
 }
 
 
@@ -69,8 +77,7 @@ const MoreActionsMenu = styled((props: MenuProps) => (
 ))(({ theme }) => ({
 	'& .MuiPaper-root': {
 		borderRadius: 6,
-		marginTop:theme.spacing(1),
-		minWidth:180,
+		marginTop:theme.spacing(1), minWidth:180,
 		color:
 			theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
 		boxShadow:
@@ -94,7 +101,7 @@ const MoreActionsMenu = styled((props: MenuProps) => (
 	}
 }));
 
-function CRUDTable<T extends DataItemType>({data, index, additionalActions}:CRUDTableProps<T>)	{
+function CRUDTable<T extends DataItemType>({data, index, crudActions, additionalActions}:CRUDTableProps<T>)	{
 
 	const [moreActionsMenuAnchor, setMoreActionsMenuAnchor] = React.useState<null | HTMLElement>(null) 
 	const moreActionsMenuOpen = Boolean(moreActionsMenuAnchor);
@@ -104,6 +111,8 @@ function CRUDTable<T extends DataItemType>({data, index, additionalActions}:CRUD
 	const handleCloseMoreActionsMenu = () => {
 		setMoreActionsMenuAnchor(null);
 	};
+
+
 
 
 	return (
@@ -145,56 +154,80 @@ function CRUDTable<T extends DataItemType>({data, index, additionalActions}:CRUD
 							 >
 								<Stack  justifyContent={'flex-end'} direction={"row"}>
 
-									{/* -- Basic Crud Buttons + Additional Actions -- */}
-									<Tooltip title="View Details">
-										<IconButton color='info'>
-											<ViewList />
-										</IconButton>
-									</Tooltip>
 
-									<Tooltip title="Update Entry">
-										<IconButton color='secondary'>
-											<Update />
-										</IconButton>
-									</Tooltip>
+									{crudActions ? (
+									<>
+										{/* -- Basic Crud Buttons + Additional Actions -- */}
+										<Tooltip title="View Details">
+												<IconButton onClick={() => 
+													{if (crudActions.crudActionRead){
+														crudActions.crudActionRead(item[index]);
+													}
+													}} color='info'>
+												<ViewList />
+											</IconButton>
+										</Tooltip>
 
-									
+										<Tooltip title="Update Entry">
+											<IconButton onClick={() => {
+											if (crudActions.crudActionUpdate){
+											crudActions.crudActionUpdate(item[index]) 
+											}
+											}} color='secondary'>
+												<Update />
+											</IconButton>
+										</Tooltip>
+									</>
+									) : false}
 
-									{/* -- More Actions Dropdown Button & Menu -- */}
+									{additionalActions ? (
+										<>
+										{/* -- More Actions Dropdown Button & Menu -- */}
 
-									<Tooltip title='More Actions' >
-										<Button variant='text' 
-											onClick={handleMoreActionsMenuClick}
-											startIcon={<MoreHoriz/>} 
-											endIcon={<ArrowDropDown />} 
-											color='primary'>
-										</Button>
-									</Tooltip>
+										<Tooltip title='More Actions' >
+											<Button variant='text' 
+												onClick={handleMoreActionsMenuClick}
+												startIcon={<MoreHoriz/>} 
+												endIcon={<ArrowDropDown />} 
+												color='primary'>
+											</Button>
+										</Tooltip>
 
-									<MoreActionsMenu 
+
+										{/* -- More Actions Dropdown Button & Menu End -- */}	
+
+
+										<MoreActionsMenu 
 										anchorEl={moreActionsMenuAnchor}
 										open={moreActionsMenuOpen}
 										onClose={handleCloseMoreActionsMenu}
-									>
-										{additionalActions?.map(action => (
-											<MenuItem key={action.menuItemLabel as React.Key}
-												onClick={action.menuItemOnClick}>
-													{action.menuItemIcon}
-													{action.menuItemLabel}
-											</MenuItem>
-										))}
-										{/* -- Menu Items For Additonal Items --  */}
+										>
+											{additionalActions?.map(action => (
+												<MenuItem key={action.menuItemLabel as React.Key}
+													onClick={action.menuItemOnClick}>
+														{action.menuItemIcon}
+														{action.menuItemLabel}
+												</MenuItem>
+											))}
+											{/* -- Menu Items For Additonal Items --  */}
 
-									</MoreActionsMenu>
+										</MoreActionsMenu>
+										</>
+									) : false}
 
-									{/* -- More Actions Dropdown Button & Menu End -- */}									
-							
-
-									<Tooltip title="Delete Entry">
-										<IconButton color='error'>
-											<Delete />
-										</IconButton>
-									</Tooltip>
+									{crudActions ? (
+									<>
+										<Tooltip title="Delete Entry">
+											<IconButton onClick={() => {
+											if (crudActions.crudActionDelete) {
+											crudActions.crudActionDelete(item[index]) 
+											}
+											}} color='error'>
+												<Delete />
+											</IconButton>
+										</Tooltip>
+									</>
+									) : false}
 
 								</Stack>
 							</TableCell>
